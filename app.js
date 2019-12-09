@@ -1,6 +1,8 @@
 require("dotenv").config({path: __dirname + "/.env"})
 const express = require("express");
 const app = express();
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const db_navn = "REST-API";
 
@@ -21,12 +23,15 @@ database.once("open", () => console.log("koblet til databasen: " + db_navn));
 app.use(express.json());
 
 
+// middleware
+app.use(morgan("dev"));
+app.use(bodyParser.json());
 
-//  importerer Routes
-const authRoute = require("./routes/auth");
 
-// routes middleware
-app.use("/api/user", authRoute)
+// importerer routes
+app.use("/brukere", require("./routes/brukere"));
+
+
 
 
 
