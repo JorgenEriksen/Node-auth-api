@@ -33,11 +33,4 @@ app.use("/brukere", require("./routes/brukere"));
 
 
 
-
-
-
-
-
-
-
 app.listen(1337, () => console.log("serveren har startet"));
