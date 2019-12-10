@@ -1,22 +1,22 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    user: {
-        type: String,
-        required: true,
-        min: 6
-    },
     email: {
         type: String,
         required: true,
-        min: 6
+        min: 6,
+        unique: true,
+        lowercase: true
     },
     password: {
         type: String,
         required: true,
         min: 8
     },
-    dato: {
+    Program: {
+        type: Array
+    },
+    date: {
         type: Date,
         default: Date.now
     }
