@@ -1,4 +1,16 @@
-const User = require("../models/user")
+require("dotenv").config({path: __dirname + "/.env"})
+const JWT = require("jsonwebtoken");
+const User = require("../models/user");
+
+
+function signToken(user) {
+    return JWT.sign({
+        iss: "Treningsapp",
+        sub: user._id,
+        iat: new Date().getTime(), //  dagens dato
+        exp: new Date().setDate(new Date().getDate() + 1) // dagens dato + 1 dag
+    }, process.env.SECRET_TOKEN_TEXT);
+}
 
 module.exports = {
     registrer: async (req, res, next) =>{
@@ -20,7 +32,11 @@ module.exports = {
         })
         await newUser.save();
 
-        res.json({ user: "created" })
+        // genererer token
+        const token = signToken(newUser);
+
+        // responderer med token
+        res.status(200).json({ token: token});
     },
 
     loginn: async (req, res, next) =>{

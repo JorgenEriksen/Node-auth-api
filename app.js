@@ -10,7 +10,8 @@ const db_navn = "REST-API";
 mongoose.connect(process.env.DATABASE_URL + db_navn + "?retryWrites=true&w=majority",
     { 
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
 });
 
 const database = mongoose.connection;
