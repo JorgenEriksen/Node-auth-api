@@ -44,6 +44,7 @@ module.exports = {
     },
 
     hemmelig: async (req, res, next) =>{
-        console.log("BrukereController.hemmelig() er kjørt");
+        console.log("Hemmelig del");
+        res.json({ program: ["hey", "there"]});
     }
 }
