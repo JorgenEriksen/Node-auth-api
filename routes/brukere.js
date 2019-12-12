@@ -11,7 +11,7 @@ router.route("/registrer")
 
 
 router.route("/loginn")
-    .post(BrukereController.loginn);
+    .post(validateBody(schemas.authSchema), passport.authenticate("local", { session: false}), BrukereController.loginn);
 
 
 router.route("/hemmelig")

@@ -40,7 +40,12 @@ module.exports = {
     },
 
     loginn: async (req, res, next) =>{
-        console.log("BrukereController.loginn() er kjørt");
+
+    
+        const token = signToken(req.user);
+        res.status(200).json({ token });
+
+        
     },
 
     hemmelig: async (req, res, next) =>{
