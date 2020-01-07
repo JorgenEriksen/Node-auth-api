@@ -19,7 +19,7 @@ module.exports = {
         const email = req.value.body.email;
         const password = req.value.body.password;
 
-        const foundUser = await User.findOne({ email: email })
+        const foundUser = await User.findOne({ "local.email": email });
 
         // Hvis brukeren eksisterer fra før
         if(foundUser){ 
@@ -27,9 +27,12 @@ module.exports = {
         }
 
         const newUser = new User({
-            email: email,
-            password: password
-        })
+            method: "local",
+            local: {
+                email: email,
+                password: password
+            }
+        });
         await newUser.save();
 
         // genererer token
@@ -40,16 +43,34 @@ module.exports = {
     },
 
     loginn: async (req, res, next) =>{
-
-    
         const token = signToken(req.user);
         res.status(200).json({ token });
+    },
 
-        
+    googleOAuth: async (req, res, next) => {
+        console.log("req.user: ", req.user);
+        const token = signToken(req.user);
+        res.status(200).json({ token });
     },
 
     hemmelig: async (req, res, next) =>{
         console.log("Hemmelig del");
+        console.log(req.user.program);
         res.json({ program: ["hey", "there"]});
+    },
+
+    program: async (req, res, next) =>{
+        console.log(req.params);
+        console.log(req.headers.jesus); // bare tester litt
+        console.log(req.body);
+        User.findByIdAndUpdate(req.user._id, {"program": ["test"]}, (error, oppdatertBruker)=>{
+           
+            if(error){
+                console.log("error");
+            } else {
+                res.json( oppdatertBruker.program );
+            }
+        });
     }
+
 }
